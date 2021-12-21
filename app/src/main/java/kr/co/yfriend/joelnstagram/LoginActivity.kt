@@ -11,7 +11,10 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.Auth
@@ -26,7 +29,6 @@ import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_login.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.*
 
 
 class LoginActivity : AppCompatActivity() {
@@ -40,27 +42,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
         initView()
         setListener()
-        // printHashKey()
-    }
-
-    /**
-     * Facebook HashKey 얻기 위한 Method
-     */
-    fun printHashKey() {
-        try {
-            val info: PackageInfo = packageManager
-                .getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-            for (signature in info.signatures) {
-                val md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                val hashKey: String = String(Base64.encode(md.digest(), 0))
-                Log.i("TAG", "printHashKey() Hash Key: $hashKey")
-            }
-        } catch (e: NoSuchAlgorithmException) {
-            Log.e("TAG", "printHashKey()", e)
-        } catch (e: Exception) {
-            Log.e("TAG", "printHashKey()", e)
-        }
     }
 
     // OnActivityResult 가 Deprecated 가 되면서 추가된 내용
@@ -101,14 +82,17 @@ class LoginActivity : AppCompatActivity() {
      */
     private fun setListener() {
         btn_email_login.setOnClickListener {
+            // 이메일 로그인 형식 Btn Click Event
             signInAndSignUp()
         }
 
         btn_google_login.setOnClickListener {
+            // Google Login Btn Click Event
             googleSignIn()
         }
 
         btn_facebook_login.setOnClickListener {
+            // Facebook Login Btn Click Event
             facebookSignIn()
         }
     }
@@ -143,10 +127,10 @@ class LoginActivity : AppCompatActivity() {
             .addOnCompleteListener {
                 when {
                     it.isSuccessful -> {
+                        // Firebase Email 형식 로그인 성공
                         gotoMainPage(it.result?.user)
                     }
                     else -> {
-                        // 입력한 이메일이 이미 존재할 경우
                         Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -189,16 +173,19 @@ class LoginActivity : AppCompatActivity() {
             })
     }
 
+    /**
+     * Facebook Login 에서 얻어온 Token 으로 Firebase 등록 Method
+     */
     private fun getFacebookAccessToken(token: AccessToken?) {
         token?.token?.let {
             val credential = FacebookAuthProvider.getCredential(it)
             auth.signInWithCredential(credential).addOnCompleteListener { task ->
                 when {
                     task.isSuccessful -> {
+                        // Facebook Login 성공
                         gotoMainPage(task.result?.user)
                     }
                     else -> {
-                        // 입력한 이메일이 이미 존재할 경우
                         Toast.makeText(
                             applicationContext,
                             task.exception?.message,
@@ -222,7 +209,6 @@ class LoginActivity : AppCompatActivity() {
                     gotoMainPage(it.result?.user)
                 }
                 else -> {
-                    // 입력한 이메일이 이미 존재할 경우
                     Toast.makeText(this, it.exception?.message, Toast.LENGTH_SHORT).show()
                 }
             }

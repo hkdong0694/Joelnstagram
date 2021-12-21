@@ -10,22 +10,21 @@
         android:id="@+id/iv_title"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:fontFamily="@font/customer"
+        android:gravity="center"
         android:text="Joelnstagram"
         android:textSize="50dp"
-        android:gravity="center"
-        android:fontFamily="@font/customer"
+        app:layout_constraintBottom_toTopOf="@id/vg_signin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/vg_signin"
-        >
+        app:layout_constraintTop_toTopOf="parent">
 
     </TextView>
 
     <LinearLayout
+        android:id="@+id/vg_signin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:id="@+id/vg_signin"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,11 +37,10 @@
             android:layout_marginEnd="20dp">
 
             <EditText
+                android:id="@+id/et_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/et_email"
-                android:hint="@string/email"
-                />
+                android:hint="@string/email" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,12 +51,11 @@
             android:layout_marginEnd="20dp">
 
             <EditText
+                android:id="@+id/et_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/et_password"
-                android:inputType="textPassword"
                 android:hint="@string/password"
-                />
+                android:inputType="textPassword" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -66,12 +63,12 @@
             android:id="@+id/btn_email_login"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginTop="20dp"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
             android:text="@string/signin_email"
-            android:theme="@style/ButtonStyle"></Button>
+            android:theme="@style/ButtonStyle" />
 
 
         <Button
@@ -83,7 +80,7 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/btn_signin_facebook"
             android:text="@string/signin_facebook"
-            android:textColor="@color/colorWhite"></Button>
+            android:textColor="@color/colorWhite" />
 
         <Button
             android:id="@+id/btn_google_login"
@@ -94,10 +91,7 @@
             android:layout_marginBottom="80dp"
             android:background="@drawable/btn_signin_google"
             android:text="@string/signin_google"
-            android:textColor="@color/colorWhite">
-
-        </Button>
-
+            android:textColor="@color/colorWhite" />
 
     </LinearLayout>
 
