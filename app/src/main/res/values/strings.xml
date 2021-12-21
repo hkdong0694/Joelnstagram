@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Joelnstagram</string>
-    <string name="facebook_app_id">873009302900995</string>
+    <string name="facebook_app_id">323807366228620</string>
+    <string name="fb_login_protocol_scheme">fb323807366228620</string>
     <string name="google_web_default_client_id">489319019835-gdnt4nj85pdf6ekv187ib3dnuidrtmh8.apps.googleusercontent.com</string>
-    <string name="fb_login_protocol_scheme">fb873009302900995</string>
     <string name="com.twitter.sdk.android.CONSUMER_KEY">0lY6xdMc8l3Bgkdep8DvfPxe4</string>
     <string name="com.twitter.sdk.android.CONSUMER_SECRET">2Uov8wp8sQWccy1oRRes7Q3VgWfsTE1tokYHblse9TTaF0BW1b</string>
 
