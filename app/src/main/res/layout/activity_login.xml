@@ -56,14 +56,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/et_password"
-                android:inputType="numberPassword"
+                android:inputType="textPassword"
                 android:hint="@string/password"
                 />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/btn_email"
+            android:id="@+id/btn_email_login"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"
@@ -75,7 +75,7 @@
 
 
         <Button
-            android:id="@+id/btn_facebook"
+            android:id="@+id/btn_facebook_login"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -86,7 +86,7 @@
             android:textColor="@color/colorWhite"></Button>
 
         <Button
-            android:id="@+id/btn_google"
+            android:id="@+id/btn_google_login"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"

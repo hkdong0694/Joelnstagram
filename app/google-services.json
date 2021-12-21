@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "489319019835",
+    "project_id": "joelnstagram",
+    "storage_bucket": "joelnstagram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:489319019835:android:8fe5a767d98e348418f31e",
+        "android_client_info": {
+          "package_name": "kr.co.yfriend.joelnstagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "489319019835-gdnt4nj85pdf6ekv187ib3dnuidrtmh8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4kHToiueL2r4Sy5hi3KXUabJLbBduR_s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489319019835-gdnt4nj85pdf6ekv187ib3dnuidrtmh8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
