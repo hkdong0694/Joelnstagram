@@ -8,9 +8,12 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_add_photo.*
 import kr.co.yfriend.joelnstagram.R
+import kr.co.yfriend.joelnstagram.navigation.model.ContentDTO
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,6 +21,8 @@ class AddPhotoActivity : AppCompatActivity() {
 
     private lateinit var storage: FirebaseStorage
     private var uri: Uri? = null
+    private lateinit var auth: FirebaseAuth
+    private lateinit var firebaseStore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +49,10 @@ class AddPhotoActivity : AppCompatActivity() {
     private fun initView() {
         // Initiate Storage
         storage = FirebaseStorage.getInstance()
+        // Initiate Auth
+        auth = FirebaseAuth.getInstance()
+        // Initiate FireStore
+        firebaseStore = FirebaseFirestore.getInstance()
 
         val photoPickIntent = Intent(Intent.ACTION_PICK)
         photoPickIntent.type = "image/*"
@@ -56,6 +65,7 @@ class AddPhotoActivity : AppCompatActivity() {
      */
     private fun setListener() {
         btn_upload.setOnClickListener {
+            // Storage 저장 Method
             contentUpload()
         }
     }
@@ -68,11 +78,56 @@ class AddPhotoActivity : AppCompatActivity() {
         val imageFileName = "IMAGE_" + timeStamp + "_.png"
         val storageRef = storage.reference.child("images").child(imageFileName)
 
+        // Promise Method
         uri?.let {
-            storageRef.putFile(it).addOnSuccessListener {
-                Toast.makeText(applicationContext, "업로드 성공", Toast.LENGTH_SHORT).show()
+            storageRef.putFile(it).continueWith {
+                return@continueWith storageRef.downloadUrl
+            }.addOnCompleteListener {
+                val contentDTO = ContentDTO()
+
+                // Insert downloadUri of image
+                contentDTO.imageUri = uri.toString()
+                // Insert uid of user
+                contentDTO.userName = auth.currentUser?.uid
+                // Insert userId ( Email )
+                contentDTO.userId = auth.currentUser?.email
+                // Insert explain of content
+                contentDTO.explain = et_content.text.toString()
+                // Insert Current TimeStamp
+                contentDTO.timestamp = System.currentTimeMillis()
+
+                // FireStore Save CallBack
+                firebaseStore.collection("images").document().set(contentDTO)
+
+                setResult(Activity.RESULT_OK)
+                finish()
             }
         }
+
+        // uri?.let {
+        //     storageRef.putFile(it).addOnSuccessListener {
+        //         storageRef.downloadUrl.addOnCompleteListener { uri ->
+        //             val contentDTO = ContentDTO()
+        //
+        //             // Insert downloadUri of image
+        //             contentDTO.imageUri = uri.toString()
+        //             // Insert uid of user
+        //             contentDTO.userName = auth.currentUser?.uid
+        //             // Insert userId ( Email )
+        //             contentDTO.userId = auth.currentUser?.email
+        //             // Insert explain of content
+        //             contentDTO.explain = et_content.text.toString()
+        //             // Insert Current TimeStamp
+        //             contentDTO.timestamp = System.currentTimeMillis()
+        //
+        //             // FireStore Save CallBack
+        //             firebaseStore.collection("images").document().set(contentDTO)
+        //
+        //             setResult(Activity.RESULT_OK)
+        //             finish()
+        //         }
+        //     }
+        // }
     }
 
 }
