@@ -13,7 +13,7 @@ data class ContentDTO(
     var userId: String? = null,       // 사진 업로드한 유저 Id
     var timestamp: Long? = null,      // 사진 업로드 시간
     var favoriteCount: Int = 0,     // 업로드 사진 좋아요 개수
-    var favorites: Map<String, Boolean> = HashMap()
+    var favorites: MutableMap<String, Boolean> = HashMap()
 ) {
     data class Comment(
         var userName: String? = null,

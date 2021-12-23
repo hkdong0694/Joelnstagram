@@ -35,12 +35,11 @@ class DetailViewAdapter : RecyclerView.Adapter<DetailViewAdapter.ViewHolder>() {
 
     fun setData(contentList: ArrayList<ContentDTO>, uidList: ArrayList<String>) {
         this.contentDTOs = contentList
-        this.contentUidList = uidList;
+        this.contentUidList = uidList
         notifyDataSetChanged()
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-
         private val ivProfile : ImageView = itemView.findViewById(R.id.iv_profile)
         private val tvName: TextView = itemView.findViewById(R.id.tv_name)
         private val ivDetailItem : ImageView = itemView.findViewById(R.id.iv_detail_item)

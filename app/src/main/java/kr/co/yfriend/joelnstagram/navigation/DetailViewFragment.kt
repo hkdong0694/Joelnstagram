@@ -20,8 +20,8 @@ import kr.co.yfriend.joelnstagram.navigation.model.ContentDTO
  */
 class DetailViewFragment : Fragment() {
 
-    private lateinit var firestore: FirebaseFirestore
-    private val adapter : DetailViewAdapter by lazy { DetailViewAdapter() }
+    private lateinit var fireStore: FirebaseFirestore
+    private val adapter: DetailViewAdapter by lazy { DetailViewAdapter() }
     private var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
     private var contentUidList: ArrayList<String> = arrayListOf()
 
@@ -39,8 +39,8 @@ class DetailViewFragment : Fragment() {
     /**
      * initView ( 초기화 )
      */
-    private fun initView(view : View) {
-        firestore = FirebaseFirestore.getInstance()
+    private fun initView(view: View) {
+        fireStore = FirebaseFirestore.getInstance()
         view.rv_item.layoutManager = LinearLayoutManager(activity)
         view.rv_item.adapter = adapter
     }
@@ -49,11 +49,11 @@ class DetailViewFragment : Fragment() {
      * Firebase 에 등록한 데이터 전부 가져오기
      */
     private fun fbSetData() {
-        firestore.collection("images").orderBy("timestamp").addSnapshotListener { value, error ->
+        fireStore.collection("images").orderBy("timestamp").addSnapshotListener { value, _ ->
             contentDTOs.clear()
             contentUidList.clear()
             value?.let { querySnapshot ->
-                for(snapshot in querySnapshot.documents) {
+                for (snapshot in querySnapshot.documents) {
                     val item = snapshot.toObject(ContentDTO::class.java)
                     if (item != null) {
                         contentDTOs.add(item)
