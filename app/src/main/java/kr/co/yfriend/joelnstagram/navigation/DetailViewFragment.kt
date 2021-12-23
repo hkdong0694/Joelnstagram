@@ -5,7 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_detail.view.*
 import kr.co.yfriend.joelnstagram.R
+import kr.co.yfriend.joelnstagram.adapter.DetailViewAdapter
+import kr.co.yfriend.joelnstagram.navigation.model.ContentDTO
 
 /**
  * Joelnstagram
@@ -15,12 +20,49 @@ import kr.co.yfriend.joelnstagram.R
  */
 class DetailViewFragment : Fragment() {
 
+    private lateinit var firestore: FirebaseFirestore
+    private val adapter : DetailViewAdapter by lazy { DetailViewAdapter() }
+    private var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
+    private var contentUidList: ArrayList<String> = arrayListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
+        val view = LayoutInflater.from(activity).inflate(R.layout.fragment_detail, container, false)
+        initView(view)
+        fbSetData()
+        return view
+    }
+
+    /**
+     * initView ( 초기화 )
+     */
+    private fun initView(view : View) {
+        firestore = FirebaseFirestore.getInstance()
+        view.rv_item.layoutManager = LinearLayoutManager(activity)
+        view.rv_item.adapter = adapter
+    }
+
+    /**
+     * Firebase 에 등록한 데이터 전부 가져오기
+     */
+    private fun fbSetData() {
+        firestore.collection("images").orderBy("timestamp").addSnapshotListener { value, error ->
+            contentDTOs.clear()
+            contentUidList.clear()
+            value?.let { querySnapshot ->
+                for(snapshot in querySnapshot.documents) {
+                    val item = snapshot.toObject(ContentDTO::class.java)
+                    if (item != null) {
+                        contentDTOs.add(item)
+                        contentUidList.add(snapshot.id)
+                    }
+                }
+                adapter.setData(contentDTOs, contentUidList)
+            }
+        }
     }
 
 }
