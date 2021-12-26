@@ -22,6 +22,7 @@ class DetailViewFragment : Fragment() {
 
     private lateinit var fireStore: FirebaseFirestore
     private val adapter: DetailViewAdapter by lazy { DetailViewAdapter() }
+    
     private var contentDTOs: ArrayList<ContentDTO> = arrayListOf()
     private var contentUidList: ArrayList<String> = arrayListOf()
 
